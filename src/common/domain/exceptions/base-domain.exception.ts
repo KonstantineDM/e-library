@@ -3,6 +3,7 @@ export type DomainErrorData = Record<string, unknown>;
 export class BaseDomainException<T = Record<string, unknown>> extends Error {
   constructor(
     protected readonly data: T | Record<string, unknown> = {},
+    protected readonly options?: { cause?: unknown },
     protected readonly statusCode: number = 400,
     protected readonly errorCode: string = 'unspecified_domain_error',
     protected readonly customMessage: string | undefined = undefined,
@@ -21,6 +22,21 @@ export class BaseDomainException<T = Record<string, unknown>> extends Error {
 
   getData(): T | Record<string, unknown> {
     return this.data;
+  }
+
+  getOptions(): Record<string, unknown> | undefined {
+    const cause = this.options?.cause;
+
+    if (cause instanceof Error) {
+      return {
+        cause,
+        name: cause.name,
+        message: cause.message,
+        stack: cause.stack,
+      };
+    }
+
+    return { cause };
   }
 
   getStatus(): number {

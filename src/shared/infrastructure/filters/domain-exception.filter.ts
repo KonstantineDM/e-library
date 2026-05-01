@@ -20,7 +20,9 @@ export class DomainExceptionFilter implements ExceptionFilter {
       message: exception.message || exception.getCustomMessage(),
     };
 
-    this.logger.error(JSON.stringify({ error, exception, body: request.body }));
+    const options = exception.getOptions();
+
+    this.logger.error(JSON.stringify({ error, exception, body: request.body, options }));
 
     response.status(status).json({
       data: exception.getData(),
