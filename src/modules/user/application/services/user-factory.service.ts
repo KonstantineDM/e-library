@@ -6,12 +6,13 @@ import { User } from '@user/domain/entities/user.aggregate';
 import { UserName } from '@user/domain/value-objects';
 import * as argon2 from 'argon2';
 import { UserNameNotAvailableException } from '../exceptions/user-name-not-available.exception';
+import { IUserFactoryService } from '../ports';
 import type { IUserRepository } from '../ports/user-repository.interface';
 import { CreateUserBoundary } from '../use-cases/create-user/create-user.boundary';
 import Input = CreateUserBoundary.Input;
 
 @Injectable()
-export class UserFactoryService {
+export class UserFactoryService implements IUserFactoryService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
 

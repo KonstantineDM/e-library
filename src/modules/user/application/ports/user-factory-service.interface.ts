@@ -9,5 +9,11 @@ type CreateUserInput = {
 };
 
 export interface IUserFactoryService {
+  /**
+   * @throws EmailNotAvailableException
+   * @throws UserNameNotAvailableException
+   * @param input CreateUserBoundary.Input
+   * @returns User
+   */
   create(input: CreateUserInput): Promise<User>;
 }
